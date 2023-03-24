@@ -5,6 +5,7 @@
 package Frames;
 
 import Clases.Connect;
+import static java.rmi.server.LogStream.log;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -281,12 +282,15 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             
-            PreparedStatement ps=cn.prepareCall("INSERT INTO empleados (nombre, apellido, direccion, telefono) VALUES (?,?,?,?)");
+            String consulta = "INSERT INTO empleados (nombre,apellido,direccion,telefono) VALUES (?,?,?,?)";
+            PreparedStatement ps=cn.prepareCall(consulta);
             
             ps.setString(1, txtnombres.getText());
             ps.setString(2, txtapellidos.getText());
             ps.setString(3, txtdireccion.getText());
             ps.setString(4, txttelefono.getText());
+            
+            log(consulta);
             
             ps.executeUpdate();
             
