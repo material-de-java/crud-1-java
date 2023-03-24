@@ -116,6 +116,8 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new javax.swing.JTable();
         btnimprimir = new javax.swing.JButton();
+        btnbuscar = new javax.swing.JLabel();
+        txtbuscar = new javax.swing.JTextField();
 
         popelminar.setText("Eliminar Registro");
         popelminar.addActionListener(new java.awt.event.ActionListener() {
@@ -253,6 +255,19 @@ public class Main extends javax.swing.JFrame {
 
         btnimprimir.setText("Imprimir");
 
+        btnbuscar.setText("Buscar:");
+
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
+        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -267,7 +282,12 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnimprimir)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnimprimir)
+                                .addGap(92, 92, 92)
+                                .addComponent(btnbuscar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -281,7 +301,10 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnimprimir)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnimprimir)
+                    .addComponent(btnbuscar)
+                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(123, 123, 123))
         );
 
@@ -316,6 +339,7 @@ public class Main extends javax.swing.JFrame {
             limpiar();
             mostrarTabla("");
           
+            JOptionPane.showMessageDialog(null,"Datos guardados!");
         } catch (SQLException e) {
             System.err.println("Error al guardar!..."+e);
             JOptionPane.showMessageDialog(null,"Error al guardar!");
@@ -324,6 +348,7 @@ public class Main extends javax.swing.JFrame {
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
         // TODO add your handling code here:
+        limpiar();
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
@@ -403,6 +428,15 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_popelminarActionPerformed
 
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
+    private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
+        // TODO add your handling code here:
+        mostrarTabla(txtbuscar.getText());
+    }//GEN-LAST:event_txtbuscarKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -440,6 +474,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnactualizar;
+    private javax.swing.JLabel btnbuscar;
     private javax.swing.JButton btncancelar;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnimprimir;
@@ -456,6 +491,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem popelminar;
     private javax.swing.JTable tabla1;
     private javax.swing.JTextField txtapellidos;
+    private javax.swing.JTextField txtbuscar;
     private javax.swing.JTextField txtdireccion;
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtnombres;
