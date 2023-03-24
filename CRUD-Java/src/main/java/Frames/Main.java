@@ -6,7 +6,9 @@ package Frames;
 
 import Clases.Connect;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +18,9 @@ import javax.swing.table.DefaultTableModel;
  * @author manu
  */
 public class Main extends javax.swing.JFrame {
+    
+    Connect con = new Connect();
+    Connection cn = con.conexion();
 
     /**
      * Creates new form Main
@@ -75,7 +80,7 @@ public class Main extends javax.swing.JFrame {
             
         } catch (Exception e) {
             
-            System.err.println("Error al insertar los datos!");
+            System.err.println("Error al mostrar los datos!"+e);
             JOptionPane.showMessageDialog(null,"Error al insertar datos!");
         }
     }
@@ -274,6 +279,24 @@ public class Main extends javax.swing.JFrame {
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
+        try {
+            
+            PreparedStatement ps=cn.prepareCall("INSERT INTO empleados (nombre, apellido, direccion, telefono) VALUES (?,?,?,?)");
+            
+            ps.setString(1, txtnombres.getText());
+            ps.setString(2, txtapellidos.getText());
+            ps.setString(3, txtdireccion.getText());
+            ps.setString(4, txttelefono.getText());
+            
+            ps.executeUpdate();
+            
+            limpiar();
+            mostrarTabla("");
+          
+        } catch (SQLException e) {
+            System.err.println("Error al guardar!..."+e);
+            JOptionPane.showMessageDialog(null,"Error al guardar!");
+        }
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
@@ -337,8 +360,5 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables
 
-Connect con = new Connect();
-Connection cn = con.conexion();
 
-    
 }

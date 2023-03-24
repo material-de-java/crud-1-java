@@ -13,19 +13,19 @@ import java.sql.DriverManager;
  */
 public class Connect {
     
-    Connection cn;
-    String host = "jdbc:mysql://localhost/db1";
-    String user = "user";
+    Connection cn;    
     
     public Connection conexion(){
+        
+        System.out.println("Clase connect");
         try {
-                Class.forName("com.mysql.jdbc.Driver");
-                cn = DriverManager.getConnection(host,user,"");
+                cn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/db1","user","user");
                 
                 System.out.println("Connected");
                 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            
+            System.err.println("ERROR EN LA CONEXIÓN! - "+e);
         }
         
         return cn;
