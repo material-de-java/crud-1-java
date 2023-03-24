@@ -6,6 +6,9 @@ package Frames;
 
 import Clases.Connect;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -48,7 +51,33 @@ public class Main extends javax.swing.JFrame {
         
         tabla1.setModel(modelo);
         
-        String sql="";
+        String sql="SELECT * FROM empleados WHERE CONCAT(nombre, ' ',apellido) LIKE '%"+var+"%'";
+        
+        String datos[] = new String[5]; // 5 campos de la tabla
+        
+        Statement st;
+        
+        try {
+            st=cn.createStatement();
+            ResultSet rs=st.executeQuery(sql);
+            
+            while(rs.next()){
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+                
+                modelo.addRow(datos);
+            }
+                    
+            tabla1.setModel(modelo);
+            
+        } catch (Exception e) {
+            
+            System.err.println("Error al insertar los datos!");
+            JOptionPane.showMessageDialog(null,"Error al insertar datos!");
+        }
     }
 
     /**
