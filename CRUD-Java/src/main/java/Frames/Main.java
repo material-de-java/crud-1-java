@@ -4,6 +4,10 @@
  */
 package Frames;
 
+import Clases.Connect;
+import java.sql.Connection;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author manu
@@ -15,6 +19,36 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        
+        this.setLocationRelativeTo(null);
+        
+        limpiar();
+        mostrarTabla("");
+        txtid.setEnabled(false);
+    }
+    
+    
+    void limpiar() {
+        txtid.setText("");
+        txtnombres.setText("");
+        txtapellidos.setText("");
+        txtdireccion.setText("");
+        txttelefono.setText("");
+    }
+    
+    
+    void mostrarTabla(String var){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("ID");
+        modelo.addColumn("NOMBRES");
+        modelo.addColumn("APELLIDOS");
+        modelo.addColumn("DIRECCIÓN");
+        modelo.addColumn("TELEFONOS");
+        
+        tabla1.setModel(modelo);
+        
+        String sql="";
     }
 
     /**
@@ -35,7 +69,7 @@ public class Main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtid = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtnombres = new javax.swing.JTextField();
         txtapellidos = new javax.swing.JTextField();
         txtdireccion = new javax.swing.JTextField();
         txttelefono = new javax.swing.JTextField();
@@ -103,7 +137,7 @@ public class Main extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtid, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-                                        .addComponent(jTextField2)
+                                        .addComponent(txtnombres)
                                         .addComponent(txtapellidos)
                                         .addComponent(txtdireccion))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -126,7 +160,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtnombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -266,11 +300,16 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tabla1;
     private javax.swing.JTextField txtapellidos;
     private javax.swing.JTextField txtdireccion;
     private javax.swing.JTextField txtid;
+    private javax.swing.JTextField txtnombres;
     private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables
+
+Connect con = new Connect();
+Connection cn = con.conexion();
+
+    
 }

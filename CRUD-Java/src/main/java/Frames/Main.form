@@ -124,7 +124,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="txtid" pref="229" max="32767" attributes="0"/>
-                                              <Component id="jTextField2" max="32767" attributes="0"/>
+                                              <Component id="txtnombres" max="32767" attributes="0"/>
                                               <Component id="txtapellidos" max="32767" attributes="0"/>
                                               <Component id="txtdireccion" max="32767" attributes="0"/>
                                           </Group>
@@ -158,7 +158,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtnombres" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -215,7 +215,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtid">
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="txtnombres">
             </Component>
             <Component class="javax.swing.JTextField" name="txtapellidos">
             </Component>
