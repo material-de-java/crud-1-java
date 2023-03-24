@@ -143,6 +143,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnactualizar.setText("Actualizar");
+        btnactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnactualizarActionPerformed(evt);
+            }
+        });
 
         btncancelar.setText("Cancelar");
         btncancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -228,6 +233,11 @@ public class Main extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla1);
 
         btnimprimir.setText("Imprimir");
@@ -290,8 +300,6 @@ public class Main extends javax.swing.JFrame {
             ps.setString(3, txtdireccion.getText());
             ps.setString(4, txttelefono.getText());
             
-            log(consulta);
-            
             ps.executeUpdate();
             
             limpiar();
@@ -306,6 +314,52 @@ public class Main extends javax.swing.JFrame {
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btncancelarActionPerformed
+
+    private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
+        // TODO add your handling code here:
+        try {
+            
+            String consulta = "UPDATE empleados SET nombre=?,apellido=?,direccion=?,telefono=? WHERE id=?";
+            PreparedStatement ps=cn.prepareCall(consulta);
+            
+            ps.setString(1, txtnombres.getText());
+            ps.setString(2, txtapellidos.getText());
+            ps.setString(3, txtdireccion.getText());
+            ps.setString(4, txttelefono.getText());
+            ps.setString(5, txtid.getText());
+          
+            int respuesta = ps.executeUpdate();
+            
+            if(respuesta>0)
+            {
+                limpiar();
+                mostrarTabla("");
+                
+       
+                JOptionPane.showMessageDialog(null,"Datos Actualizados!");
+          
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"No ha seleccionado el registro!");
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar los datos!..."+e);
+            JOptionPane.showMessageDialog(null,"Error al Actualizar!");
+        }
+    }//GEN-LAST:event_btnactualizarActionPerformed
+
+    private void tabla1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla1MouseClicked
+        // TODO add your handling code here:
+        int fila=this.tabla1.getSelectedRow();
+        
+        this.txtid.setText(this.tabla1.getValueAt(fila, 0).toString());
+        this.txtnombres.setText(this.tabla1.getValueAt(fila, 1).toString());
+        this.txtapellidos.setText(this.tabla1.getValueAt(fila, 2).toString());
+        this.txtdireccion.setText(this.tabla1.getValueAt(fila, 3).toString());
+        this.txttelefono.setText(this.tabla1.getValueAt(fila, 4).toString());
+    }//GEN-LAST:event_tabla1MouseClicked
 
     /**
      * @param args the command line arguments
