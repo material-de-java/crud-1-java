@@ -5,15 +5,22 @@
 package Frames;
 
 import Clases.Connect;
-import static java.rmi.server.LogStream.log;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author manu
@@ -254,6 +261,11 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tabla1);
 
         btnimprimir.setText("Imprimir");
+        btnimprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnimprimirActionPerformed(evt);
+            }
+        });
 
         btnbuscar.setText("Buscar:");
 
@@ -436,6 +448,58 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         mostrarTabla(txtbuscar.getText());
     }//GEN-LAST:event_txtbuscarKeyReleased
+
+    private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
+        // TODO add your handling code here:
+        String path="";
+        
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x=j.showSaveDialog(this);
+        
+        if(x==JFileChooser.APPROVE_OPTION){
+            path=j.getSelectedFile().getPath();
+        }
+        
+        Document doc = new Document();
+        
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(path+"InformeRegistroEmpleados.pdf"));
+            
+            doc.open();
+            PdfPTable tb1=new PdfPTable(5);
+            
+            //headers
+            tb1.addCell("ID");
+            tb1.addCell("NOMBRES");
+            tb1.addCell("APELLIDOS");
+            tb1.addCell("DIRECCION");
+            tb1.addCell("TELEFONO");
+            
+            for (int i = 0; i < tabla1.getRowCount(); i++) {
+                String id=tabla1.getValueAt(i,0).toString();
+                String nombres=tabla1.getValueAt(i,1).toString();
+                String apellidos=tabla1.getValueAt(i,2).toString();
+                String direccion=tabla1.getValueAt(i,3).toString();
+                String telefono=tabla1.getValueAt(i,4).toString();
+                
+                tb1.addCell(id);
+                tb1.addCell(nombres);
+                tb1.addCell(apellidos);
+                tb1.addCell(direccion);
+                tb1.addCell(telefono);
+            }
+            
+            doc.add(tb1);
+                    
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        doc.close();        
+    }//GEN-LAST:event_btnimprimirActionPerformed
 
     /**
      * @param args the command line arguments
