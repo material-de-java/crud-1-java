@@ -66,6 +66,8 @@ public class Main extends javax.swing.JFrame {
         
         String sql="SELECT * FROM empleados WHERE CONCAT(nombre, ' ',apellido) LIKE '%"+var+"%'";
         
+        System.out.println("Mostrar Tabla:::SQL>> "+sql);
+        
         String datos[] = new String[5]; // 5 campos de la tabla
         
         Statement st;
@@ -494,7 +496,7 @@ public class Main extends javax.swing.JFrame {
             doc.add(tb1);
             doc.close();
             
-            JOptionPane.showMessageDialog(null,"Documento guardado en: "+guardarEn);
+            JOptionPane.showMessageDialog(null,"Documento ha sido guardado en: "+guardarEn);
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
