@@ -462,9 +462,10 @@ public class Main extends javax.swing.JFrame {
         }
         
         Document doc = new Document();
+        String guardarEn = path+"/InformeRegistroEmpleados.pdf";
         
         try {
-            PdfWriter.getInstance(doc, new FileOutputStream(path+"InformeRegistroEmpleados.pdf"));
+            PdfWriter.getInstance(doc, new FileOutputStream(guardarEn));
             
             doc.open();
             PdfPTable tb1=new PdfPTable(5);
@@ -491,14 +492,15 @@ public class Main extends javax.swing.JFrame {
             }
             
             doc.add(tb1);
-                    
+            doc.close();
+            
+            JOptionPane.showMessageDialog(null,"Documento guardado en: "+guardarEn);
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        doc.close();        
+        }       
     }//GEN-LAST:event_btnimprimirActionPerformed
 
     /**
