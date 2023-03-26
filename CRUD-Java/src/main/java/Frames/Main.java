@@ -29,21 +29,24 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public Main() throws SQLException {
-        conexionBD = queryMIO.getInstance();
+    public Main(){
         
         initComponents();
+        activarBtn(false);
+        
+        try {
+            conexionBD = queryMIO.getInstance();
+             activarBtn(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"MAIN: Error al conectarse a la base de datos!");
+        }
+        
+        
         
         this.setLocationRelativeTo(null);
         
         limpiar();
         mostrarTabla("");
-        
-        if(conexionBD==null){
-            activarBtn(false);
-        }else{  
-            activarBtn(true);
-        }
         
         txtid.setEnabled(false);
     }
@@ -72,7 +75,7 @@ public class Main extends javax.swing.JFrame {
     }
     
     
-    void mostrarTabla(String var) throws SQLException{
+    void mostrarTabla(String var){
         
         DefaultTableModel modelo = new DefaultTableModel();
         
@@ -85,9 +88,11 @@ public class Main extends javax.swing.JFrame {
         tabla1.setModel(modelo);
         String datos[] = new String[5]; // 5 campos de la tabla
 
-        ResultSet rs=conexionBD.executeQuery(var);
-        
-        if (rs!=null){    
+        ResultSet rs;
+        try {
+            rs = conexionBD.executeQuery(var);
+            
+            if (rs!=null){    
             while(rs.next()){
                 datos[0]=rs.getString(1);
                 datos[1]=rs.getString(2);
@@ -96,12 +101,16 @@ public class Main extends javax.swing.JFrame {
                 datos[4]=rs.getString(5);
                 
                 modelo.addRow(datos);
-            }
-                    
+            }                    
             tabla1.setModel(modelo);
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Error al mostrar los datos!");
+            
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Error al mostrar los datos!");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -348,17 +357,10 @@ public class Main extends javax.swing.JFrame {
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
-        try {
-            conexionBD.prepareCall(txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText());
-                       
-            limpiar();
-            mostrarTabla("");
-          
-            JOptionPane.showMessageDialog(null,"Datos guardados!");
-        } catch (SQLException e) {
-            System.err.println("Error al guardar!..."+e);
-            JOptionPane.showMessageDialog(null,"Error al guardar!");
-        }
+        conexionBD.prepareCall(txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText());
+        limpiar();
+        mostrarTabla("");
+        JOptionPane.showMessageDialog(null,"Datos guardados!");
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
@@ -368,24 +370,17 @@ public class Main extends javax.swing.JFrame {
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
         // TODO add your handling code here:
-        try {
-            int respuesta = conexionBD.prepareCall(txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText(), txtid.getText());
-                       
-            if(respuesta>0)
-            {
-                limpiar();
-                mostrarTabla("");
-                
-                JOptionPane.showMessageDialog(null,"Registrto Actualizado!");
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null,"No ha seleccionado el registro!");
-            }
+        int respuesta = conexionBD.prepareCall(txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText(), txtid.getText());
+        if(respuesta>0)
+        {
+            limpiar();
+            mostrarTabla("");
             
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar los datos!..."+e);
-            JOptionPane.showMessageDialog(null,"Error al Actualizar!");
+            JOptionPane.showMessageDialog(null,"Registrto Actualizado!");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"No ha seleccionado el registro!");
         }
     }//GEN-LAST:event_btnactualizarActionPerformed
 
@@ -402,25 +397,17 @@ public class Main extends javax.swing.JFrame {
 
     private void popelminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popelminarActionPerformed
         // TODO add your handling code here:
-        try {
+        int respuesta = conexionBD.prepareCall(txtid.getText());
+        if(respuesta>0)
+        {
+            limpiar();
+            mostrarTabla("");
             
-            int respuesta =conexionBD.prepareCall(txtid.getText());
-            
-            if(respuesta>0)
-            {
-                limpiar();
-                mostrarTabla("");
-                       
-                JOptionPane.showMessageDialog(null,"Registro Eliminado!");
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null,"No ha seleccionado el registro!");
-            }
-            
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar los datos!..."+e);
-            JOptionPane.showMessageDialog(null,"Error al Eliminar!");
+            JOptionPane.showMessageDialog(null,"Registro Eliminado!");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"No ha seleccionado el registro!");
         }
     }//GEN-LAST:event_popelminarActionPerformed
 
@@ -429,12 +416,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_txtbuscarActionPerformed
 
     private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
-        try {
-            // TODO add your handling code here:
-            mostrarTabla(txtbuscar.getText());
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // TODO add your handling code here:
+        mostrarTabla(txtbuscar.getText());
     }//GEN-LAST:event_txtbuscarKeyReleased
 
     private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
@@ -521,11 +504,7 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Main().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new Main().setVisible(true);
             }
         });
     }

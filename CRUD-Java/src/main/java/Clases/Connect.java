@@ -6,6 +6,7 @@ package Clases;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 
 /**
  *
@@ -13,20 +14,21 @@ import java.sql.DriverManager;
  */
 public class Connect {
     
-    Connection cn;    
+    Connection cn=null;    
+    protected static final String PING_MARKER = "/* ping */";
     
-    public Connection conexion(){
-        
-        System.out.println("Clase connect");
-        try {
-                // con el driver de mariadb no hace el delete
-                cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db1","user","user");
-                
-                System.out.println("Connected");
-                
-        } catch (Exception e) {
-            
-            System.err.println("ERROR EN LA CONEXIÓN! - "+e);
+    public Connection conexion() throws Exception{
+
+        // con el driver de mariadb no hace el delete
+        cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db1","user","user");
+
+        Statement stmt = cn.createStatement();
+        stmt.executeQuery(PING_MARKER);
+
+        System.out.println("Connected");
+
+        if(cn==null){
+            throw new Exception("*** ERROR REALIZANDO CONEXIÓN ***");
         }
         
         return cn;

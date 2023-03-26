@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -22,13 +21,13 @@ public final class queryMIO {
     public Connect con;
     public Connection cn;
     
-    private queryMIO(){
+    private queryMIO() throws Exception{
             con = new Connect();
             cn = con.conexion();
     }
     
     // uso del patron Singlenton
-    public static queryMIO getInstance(){
+    public static queryMIO getInstance() throws Exception{
         if (instance==null){
             instance = new queryMIO();
         }
@@ -36,7 +35,7 @@ public final class queryMIO {
         return instance;
     }
     
-    public ResultSet executeQuery(String var) {
+    public ResultSet executeQuery(String var) throws SQLException{
         
         ResultSet rs=null;
 
@@ -44,18 +43,10 @@ public final class queryMIO {
         String consulta="CALL SelectEmpleados(?)";
         //System.out.println("SQl: "+consulta);
         
-        try {
-            ps = cn.prepareCall(consulta);
-            ps.setString(1,var);
-            rs = ps.executeQuery();            
-        } catch (SQLException ex) {
-            System.err.println("Error al mostrar los datos!"+ex);
-            rs=null;
-        }catch (NullPointerException ex) {
-            System.err.println("Error al conectarse a la BD!"+ex);
-            rs=null;
-        }
-        
+        ps = cn.prepareCall(consulta);
+        ps.setString(1,var);
+        rs = ps.executeQuery();            
+
         return rs;
     }
 
