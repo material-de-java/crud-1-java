@@ -113,7 +113,8 @@ public final class queryMIO {
 
     public int prepareCall(String var1) {
         
-        String consulta = "DELETE FROM empleados WHERE id=?";
+        //String consulta = "DELETE FROM empleados WHERE id=?";
+        String consulta = "CALL DeleteEmpleados(?);";
         PreparedStatement ps = null;
         int result = 0;
         

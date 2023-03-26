@@ -9,9 +9,6 @@ BEGIN
 	PREPARE stmt FROM @qry;
 	EXECUTE stmt;
 	DEALLOCATE PREPARE stmt;
-
-
-	
 END
 
 -- CALL SelectEmpleados(); 
@@ -39,8 +36,13 @@ END
 -- CALL UpdateEmpleados('nuevo','valor','calle000','77777',1);
 -- **************************************************************
 
+-- DROP PROCEDURE IF EXISTS db1.DeleteEmpleados;
 
--- **************************************************************
+CREATE PROCEDURE DeleteEmpleados(IN idin int )
+BEGIN
+	DELETE FROM empleados
+	WHERE id=idin;
+END
 
-
+-- CALL DeleteEmpleados(1);
 -- **************************************************************
