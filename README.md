@@ -3,7 +3,7 @@
 Video: 'https://www.udemy.com/course/crud-en-java-y-mysql-facil/learn/lecture/23580202#content' \
 
 Herramientas: XAMPP, Netbeans IDE 17\
-BD: MariaDB -> db1 \
+BD: driver MySQL, Motor: MariaDB -> db1 \
 JAVA: openjdk 17.06.6 \
 Querys de la BD disponibles en *.../sql/* /
 
