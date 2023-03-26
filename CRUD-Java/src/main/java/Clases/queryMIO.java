@@ -40,13 +40,15 @@ public final class queryMIO {
         
         Statement st=null;
         ResultSet rs=null;
-        //String sql="SELECT * FROM empleados WHERE CONCAT(nombre, ' ',apellido) LIKE '%"+var+"%'";
-        String sql="CALL SelectEmpleados("+'"'+var+'"'+")";
-        System.out.println(sql);
+
+        PreparedStatement ps = null;
+        String consulta="CALL SelectEmpleados(?)";
+        //System.out.println("SQl: "+consulta);
+        
         try {
-            st = cn.createStatement();
-            rs = st.executeQuery(sql);
-            
+            ps = cn.prepareCall(consulta);
+            ps.setString(1,var);
+            rs = ps.executeQuery();            
         } catch (SQLException ex) {
             System.err.println("Error al mostrar los datos!"+ex);
             rs=null;
@@ -60,14 +62,15 @@ public final class queryMIO {
 
     public PreparedStatement prepareCall(String var1, String var2, String var3, String var4) {
         
-        String consulta = "INSERT INTO empleados (nombre,apellido,direccion,telefono) VALUES (?,?,?,?)";
+        //String consulta = "INSERT INTO empleados (nombre,apellido,direccion,telefono) VALUES (?,?,?,?)";
+        String consulta = "CALL InsertEmpleados(?,?,?,?)";
         PreparedStatement ps = null;
         
         try  {
             
             ps = cn.prepareCall(consulta);
             
-            ps.setString(1,var1 );
+            ps.setString(1,var1);
             ps.setString(2, var2);
             ps.setString(3, var3);
             ps.setString(4, var4);
