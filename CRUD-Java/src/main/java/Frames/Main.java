@@ -4,8 +4,7 @@
  */
 package Frames;
 
-import Clases.Connect;
-import java.sql.Connection;
+import Clases.queryMIO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,13 +26,14 @@ import java.util.logging.Logger;
  */
 public class Main extends javax.swing.JFrame {
     
-    Connect con = new Connect();
-    Connection cn = con.conexion();
+    queryMIO conexionBD;
 
     /**
      * Creates new form Main
      */
-    public Main() {
+    public Main() throws SQLException {
+        conexionBD = queryMIO.getInstance();
+        
         initComponents();
         
         this.setLocationRelativeTo(null);
@@ -53,7 +53,8 @@ public class Main extends javax.swing.JFrame {
     }
     
     
-    void mostrarTabla(String var){
+    void mostrarTabla(String var) throws SQLException{
+        
         DefaultTableModel modelo = new DefaultTableModel();
         
         modelo.addColumn("ID");
@@ -70,10 +71,9 @@ public class Main extends javax.swing.JFrame {
         
         String datos[] = new String[5]; // 5 campos de la tabla
         
-        Statement st;
+        Statement st=conexionBD.createStatement();
         
-        try {
-            st=cn.createStatement();
+        if (st!=null){
             ResultSet rs=st.executeQuery(sql);
             
             while(rs.next()){
@@ -87,10 +87,8 @@ public class Main extends javax.swing.JFrame {
             }
                     
             tabla1.setModel(modelo);
-            
-        } catch (Exception e) {
-            
-            System.err.println("Error al mostrar los datos!"+e);
+        }
+        else{
             JOptionPane.showMessageDialog(null,"Error al insertar datos!");
         }
     }
@@ -341,15 +339,8 @@ public class Main extends javax.swing.JFrame {
         try {
             
             String consulta = "INSERT INTO empleados (nombre,apellido,direccion,telefono) VALUES (?,?,?,?)";
-            PreparedStatement ps=cn.prepareCall(consulta);
-            
-            ps.setString(1, txtnombres.getText());
-            ps.setString(2, txtapellidos.getText());
-            ps.setString(3, txtdireccion.getText());
-            ps.setString(4, txttelefono.getText());
-            
-            ps.executeUpdate();
-            
+            PreparedStatement ps=conexionBD.prepareCall(consulta, txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText());
+                       
             limpiar();
             mostrarTabla("");
           
@@ -370,16 +361,9 @@ public class Main extends javax.swing.JFrame {
         try {
             
             String consulta = "UPDATE empleados SET nombre=?,apellido=?,direccion=?,telefono=? WHERE id=?";
-            PreparedStatement ps=cn.prepareCall(consulta);
             
-            ps.setString(1, txtnombres.getText());
-            ps.setString(2, txtapellidos.getText());
-            ps.setString(3, txtdireccion.getText());
-            ps.setString(4, txttelefono.getText());
-            ps.setString(5, txtid.getText());
-          
-            int respuesta = ps.executeUpdate();
-            
+            int respuesta = conexionBD.prepareCall(consulta, txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText(), txtid.getText());
+                       
             if(respuesta>0)
             {
                 limpiar();
@@ -416,20 +400,14 @@ public class Main extends javax.swing.JFrame {
         try {
             
             String consulta = "DELETE FROM empleados WHERE id=?";
-            PreparedStatement ps=cn.prepareCall(consulta);
-            
-            ps.setString(1, txtid.getText());
-            
-            int respuesta = ps.executeUpdate();
+             int respuesta =conexionBD.prepareCall(consulta, txtid.getText());
             
             if(respuesta>0)
             {
                 limpiar();
                 mostrarTabla("");
-                
-       
+                       
                 JOptionPane.showMessageDialog(null,"Registro Eliminado!");
-          
             }
             else
             {
@@ -447,8 +425,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_txtbuscarActionPerformed
 
     private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
-        // TODO add your handling code here:
-        mostrarTabla(txtbuscar.getText());
+        try {
+            // TODO add your handling code here:
+            mostrarTabla(txtbuscar.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_txtbuscarKeyReleased
 
     private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
@@ -535,7 +517,11 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                try {
+                    new Main().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
