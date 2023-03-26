@@ -40,16 +40,19 @@ public final class queryMIO {
         
         Statement st=null;
         ResultSet rs=null;
-        String sql="SELECT * FROM empleados WHERE CONCAT(nombre, ' ',apellido) LIKE '%"+var+"%'";
-        
+        //String sql="SELECT * FROM empleados WHERE CONCAT(nombre, ' ',apellido) LIKE '%"+var+"%'";
+        String sql="CALL SelectEmpleados("+'"'+var+'"'+")";
+        System.out.println(sql);
         try {
             st = cn.createStatement();
             rs = st.executeQuery(sql);
             
         } catch (SQLException ex) {
             System.err.println("Error al mostrar los datos!"+ex);
+            rs=null;
         }catch (NullPointerException ex) {
             System.err.println("Error al conectarse a la BD!"+ex);
+            rs=null;
         }
         
         return rs;

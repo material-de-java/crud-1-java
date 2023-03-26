@@ -19,7 +19,7 @@ public class Connect {
         
         System.out.println("Clase connect");
         try {
-                cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db1","user","user");
+                cn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/db1","user","user");
                 
                 System.out.println("Connected");
                 
