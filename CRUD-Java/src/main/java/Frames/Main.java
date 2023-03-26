@@ -8,7 +8,6 @@ import Clases.queryMIO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +39,13 @@ public class Main extends javax.swing.JFrame {
         
         limpiar();
         mostrarTabla("");
+        
+        if(conexionBD==null){
+            activarBtn(false);
+        }else{  
+            activarBtn(true);
+        }
+        
         txtid.setEnabled(false);
     }
     
@@ -50,6 +56,20 @@ public class Main extends javax.swing.JFrame {
         txtapellidos.setText("");
         txtdireccion.setText("");
         txttelefono.setText("");
+    }
+    
+    public void activarBtn(boolean valor){
+
+        btnactualizar.setEnabled(valor);
+        btnbuscar.setEnabled(valor);
+        btncancelar.setEnabled(valor);
+        btnguardar.setEnabled(valor);
+        btnimprimir.setEnabled(valor);
+        txtbuscar.setEnabled(valor);
+        txtapellidos.setEnabled(valor);
+        txtdireccion.setEnabled(valor);
+        txtnombres.setEnabled(valor);
+        txttelefono.setEnabled(valor);
     }
     
     
@@ -64,18 +84,11 @@ public class Main extends javax.swing.JFrame {
         modelo.addColumn("TELEFONOS");
         
         tabla1.setModel(modelo);
-        
-        String sql="SELECT * FROM empleados WHERE CONCAT(nombre, ' ',apellido) LIKE '%"+var+"%'";
-        
-        System.out.println("Mostrar Tabla:::SQL>> "+sql);
-        
         String datos[] = new String[5]; // 5 campos de la tabla
+
+        ResultSet rs=conexionBD.executeQuery(var);
         
-        Statement st=conexionBD.createStatement();
-        
-        if (st!=null){
-            ResultSet rs=st.executeQuery(sql);
-            
+        if (rs!=null){    
             while(rs.next()){
                 datos[0]=rs.getString(1);
                 datos[1]=rs.getString(2);
@@ -89,7 +102,7 @@ public class Main extends javax.swing.JFrame {
             tabla1.setModel(modelo);
         }
         else{
-            JOptionPane.showMessageDialog(null,"Error al insertar datos!");
+            JOptionPane.showMessageDialog(null,"Error al mostrar los datos!");
         }
     }
 
@@ -369,9 +382,7 @@ public class Main extends javax.swing.JFrame {
                 limpiar();
                 mostrarTabla("");
                 
-       
                 JOptionPane.showMessageDialog(null,"Registrto Actualizado!");
-          
             }
             else
             {

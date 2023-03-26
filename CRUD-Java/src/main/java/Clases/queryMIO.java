@@ -2,11 +2,9 @@ package Clases;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -29,6 +27,7 @@ public final class queryMIO {
             cn = con.conexion();
     }
     
+    // uso del patron Singlenton
     public static queryMIO getInstance(){
         if (instance==null){
             instance = new queryMIO();
@@ -37,16 +36,23 @@ public final class queryMIO {
         return instance;
     }
     
-    public Statement createStatement() {
+    public ResultSet executeQuery(String var) {
+        
         Statement st=null;
+        ResultSet rs=null;
+        String sql="SELECT * FROM empleados WHERE CONCAT(nombre, ' ',apellido) LIKE '%"+var+"%'";
         
         try {
             st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            
         } catch (SQLException ex) {
             System.err.println("Error al mostrar los datos!"+ex);
+        }catch (NullPointerException ex) {
+            System.err.println("Error al conectarse a la BD!"+ex);
         }
         
-        return st;
+        return rs;
     }
 
     public PreparedStatement prepareCall(String consulta, String var1, String var2, String var3, String var4) {
@@ -98,7 +104,8 @@ public final class queryMIO {
     }    
 
     public int prepareCall(String consulta, String var1) {
-                PreparedStatement ps = null;
+        
+        PreparedStatement ps = null;
         int result = 0;
         
         try  {
