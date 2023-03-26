@@ -41,8 +41,6 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"MAIN: Error al conectarse a la base de datos!");
         }
         
-        
-        
         this.setLocationRelativeTo(null);
         
         limpiar();
@@ -58,6 +56,9 @@ public class Main extends javax.swing.JFrame {
         txtapellidos.setText("");
         txtdireccion.setText("");
         txttelefono.setText("");
+        
+        //habilita el boton guardar cuando esta deshabilitado, se deshabilita cuando se selecciona fila en tabla
+        if (!btnguardar.isEnabled()) btnguardar.setEnabled(true);
     }
     
     public void activarBtn(boolean valor){
@@ -189,7 +190,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        btncancelar.setText("Cancelar");
+        btncancelar.setText("Limpiar");
         btncancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncancelarActionPerformed(evt);
@@ -214,21 +215,21 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txttelefono)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtid, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-                                        .addComponent(txtnombres)
-                                        .addComponent(txtapellidos)
-                                        .addComponent(txtdireccion))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(19, 19, 19)
-                                        .addComponent(btncancelar)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtid, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                                    .addComponent(txtnombres)
+                                    .addComponent(txtapellidos)
+                                    .addComponent(txtdireccion))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnguardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnactualizar)))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(112, 112, 112)
+                .addComponent(btncancelar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,9 +258,9 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnguardar)
                     .addComponent(btnactualizar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btncancelar)
-                .addGap(19, 19, 19))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         tabla1.setModel(new javax.swing.table.DefaultTableModel(
@@ -387,6 +388,9 @@ public class Main extends javax.swing.JFrame {
     private void tabla1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla1MouseClicked
         // TODO add your handling code here:
         int fila=this.tabla1.getSelectedRow();
+        
+        // deshabilita guardar cuando se hace seleccion
+        btnguardar.setEnabled(false);
         
         this.txtid.setText(this.tabla1.getValueAt(fila, 0).toString());
         this.txtnombres.setText(this.tabla1.getValueAt(fila, 1).toString());
