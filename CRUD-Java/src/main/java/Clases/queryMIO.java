@@ -38,7 +38,6 @@ public final class queryMIO {
     
     public ResultSet executeQuery(String var) {
         
-        Statement st=null;
         ResultSet rs=null;
 
         PreparedStatement ps = null;
@@ -85,9 +84,10 @@ public final class queryMIO {
         return ps;
     }
 
-    public int prepareCall(String var1, String var2, String var3, String var4, String var5) {
+    public int prepareCall(String var1, String var2, String var3, String var4, String idin) {
         
-        String consulta = "UPDATE empleados SET nombre=?,apellido=?,direccion=?,telefono=? WHERE id=?";
+        //String consulta = "UPDATE empleados SET nombre=?,apellido=?,direccion=?,telefono=? WHERE id=?";
+        String consulta = "CALL UpdateEmpleados(?,?,?,?,?)";
         PreparedStatement ps = null;
         int result = 0;
         
@@ -99,7 +99,7 @@ public final class queryMIO {
             ps.setString(2, var2);
             ps.setString(3, var3);
             ps.setString(4, var4);
-            ps.setString(5, var5);
+            ps.setString(5, idin);
             
             result = ps.executeUpdate();
         
