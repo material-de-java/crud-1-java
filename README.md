@@ -26,3 +26,6 @@ Querys de la BD disponibles en *.../sql/* /
 5. Conexión a la BD y querys desacopladas del main
 6. Implementa manejo de excepciones de manera basica
 7. Permite imprimir la tabla de empleados a PDF con cuadro de navegador de archivos
+8. Permite actualizar registro seleccionado
+9. Permite borrar un registro seleccionado
+10. EL boton de guardar se deshabilita al seleccionar algun registro
