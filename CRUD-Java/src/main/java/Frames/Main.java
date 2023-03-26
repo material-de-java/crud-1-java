@@ -350,9 +350,7 @@ public class Main extends javax.swing.JFrame {
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
         try {
-            
-            String consulta = "INSERT INTO empleados (nombre,apellido,direccion,telefono) VALUES (?,?,?,?)";
-            PreparedStatement ps=conexionBD.prepareCall(consulta, txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText());
+            conexionBD.prepareCall(txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText());
                        
             limpiar();
             mostrarTabla("");
@@ -372,10 +370,7 @@ public class Main extends javax.swing.JFrame {
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
         // TODO add your handling code here:
         try {
-            
-            String consulta = "UPDATE empleados SET nombre=?,apellido=?,direccion=?,telefono=? WHERE id=?";
-            
-            int respuesta = conexionBD.prepareCall(consulta, txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText(), txtid.getText());
+            int respuesta = conexionBD.prepareCall(txtnombres.getText(),txtapellidos.getText(),txtdireccion.getText(),  txttelefono.getText(), txtid.getText());
                        
             if(respuesta>0)
             {
@@ -410,8 +405,7 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             
-            String consulta = "DELETE FROM empleados WHERE id=?";
-             int respuesta =conexionBD.prepareCall(consulta, txtid.getText());
+            int respuesta =conexionBD.prepareCall(txtid.getText());
             
             if(respuesta>0)
             {

@@ -55,8 +55,9 @@ public final class queryMIO {
         return rs;
     }
 
-    public PreparedStatement prepareCall(String consulta, String var1, String var2, String var3, String var4) {
+    public PreparedStatement prepareCall(String var1, String var2, String var3, String var4) {
         
+        String consulta = "INSERT INTO empleados (nombre,apellido,direccion,telefono) VALUES (?,?,?,?)";
         PreparedStatement ps = null;
         
         try  {
@@ -78,8 +79,9 @@ public final class queryMIO {
         return ps;
     }
 
-    public int prepareCall(String consulta, String var1, String var2, String var3, String var4, String var5) {
+    public int prepareCall(String var1, String var2, String var3, String var4, String var5) {
         
+        String consulta = "UPDATE empleados SET nombre=?,apellido=?,direccion=?,telefono=? WHERE id=?";
         PreparedStatement ps = null;
         int result = 0;
         
@@ -103,8 +105,9 @@ public final class queryMIO {
         return result;
     }    
 
-    public int prepareCall(String consulta, String var1) {
+    public int prepareCall(String var1) {
         
+        String consulta = "DELETE FROM empleados WHERE id=?";
         PreparedStatement ps = null;
         int result = 0;
         
